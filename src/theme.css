@@ -1,0 +1,20 @@
+:root {
+  --ion-color-primary: #2563eb;
+  --ion-color-primary-rgb: 37, 99, 235;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #2057cf;
+  --ion-color-primary-tint: #3b72ed;
+  --ion-background-color: #f6f8fc;
+}
+
+ion-card { border-radius: 16px; }
+ion-card ion-badge { float: right; margin-top: 10px; }
+.demo-note { margin: 8px 0 16px; padding: 12px; border-radius: 10px; background: #fff4cc; color: #664d03; }
+.empty-state { text-align: center; color: #667085; padding: 32px 8px; }
+.muted { color: #667085; }
+.card-photo { height: 170px; background-size: cover; background-position: center; }
+.detail-photo { height: 260px; border-radius: 16px; background-size: cover; background-position: center; }
+.photo-preview { height: 220px; margin: 16px 0; border-radius: 12px; background-size: cover; background-position: center; }
+.profile-header { text-align: center; padding: 16px 0 24px; }
+.profile-header ion-avatar { width: 96px; height: 96px; margin: 0 auto 12px; background: #e5efff; }
+.profile-header ion-avatar ion-icon { width: 96px; height: 96px; color: #2563eb; }
