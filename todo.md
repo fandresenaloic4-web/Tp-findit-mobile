@@ -1,6 +1,5 @@
 # tp findit application mobile de recherche de objet et pub
 
-
 * []authentification:
     * []page:
         * []page de login (sans mot de passe mais input nom et numero seulement,sans inscription)
