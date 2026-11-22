@@ -22,12 +22,13 @@
     "@capacitor/core": "7.4.3",
     "@ionic/vue": "8.7.5",
     "@ionic/vue-router": "8.7.5",
-    "firebase": "11.10.0",
+    "firebase": "12.8.0",
     "ionicons": "8.0.13",
-    "vue": "3.5.13",
+    "vue": "3.5.46",
     "vue-router": "4.5.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "7.4.3",
     "@vitejs/plugin-vue": "5.2.1",
     "@vue/test-utils": "2.4.6",
     "jsdom": "26.1.0",
@@ -35,5 +36,8 @@
     "vite": "6.4.4",
     "vitest": "3.2.4",
     "vue-tsc": "2.2.12"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "1.14.7"
   }
 }

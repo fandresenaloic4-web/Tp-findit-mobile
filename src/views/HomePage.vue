@@ -50,12 +50,13 @@ import { demoItems } from '../data'
 import { firebaseEnabled } from '../firebase'
 import { subscribeItems } from '../services/items'
 import type { FindItItem, ItemStatus } from '../types'
+import { filterItems } from '../utils'
 
 const router = useRouter()
 const search = ref('')
 const filter = ref<'all' | ItemStatus>('all')
 const items = ref<FindItItem[]>(demoItems)
-let unsubscribe = () => undefined
+let unsubscribe: () => void = () => undefined
 
 onMounted(() => {
   if (firebaseEnabled) unsubscribe = subscribeItems((remoteItems) => { items.value = remoteItems })
@@ -63,12 +64,7 @@ onMounted(() => {
 onUnmounted(() => unsubscribe())
 
 const filteredItems = computed(() => {
-  const term = search.value.trim().toLowerCase()
-  return items.value.filter((item) => {
-    const matchesFilter = filter.value === 'all' || item.status === filter.value
-    const matchesText = !term || `${item.title} ${item.description} ${item.category} ${item.location}`.toLowerCase().includes(term)
-    return matchesFilter && matchesText
-  })
+  return filterItems(items.value, search.value, filter.value)
 })
 
 function statusLabel(status: ItemStatus) {
