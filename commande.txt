@@ -1,0 +1,16 @@
+aller dans cette site
+https://console.firebase.google.com
+
+creer projet dans cette site
+appeler findIT
+entrer
+cliquer sur ajouter une application
+choisir web</>
+cd app
+npm install firebase
+copie ton script dans le site et configurer firebase/config/config.ts
+
+cd app
+
+npm install firebase
+

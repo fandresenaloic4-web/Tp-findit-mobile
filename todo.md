@@ -23,7 +23,7 @@
             * statut(part defaut perdu sans entrer dans la page)
             * date
             * deroulante categorie
-        * []liste des tous les pub dans cette application
+        * []liste des tous les pub dans cette application(acceuil)
             * [] filtre par categorie
             * [] filtre par ville localisation
             * [] filtre par date
@@ -33,9 +33,11 @@
     * [] traitement:prend tous les valeurs dans le formulaire
         * fonction:   
             * verifierDonnes():verifier chaque champ de formulaire
+            * fonction uploader image(plusieurs image)
             * inserer_pub():inserer les donnes de publication avec statut par defaut perdu
             * listesPub(): liste de tous les publication avec les filtre si possible
             * listePub:  liste de publication de l'utilisateurs connecter
+          
 
     * bdd:
         * publication
