@@ -81,17 +81,17 @@ src/
 
 ## 2. Authentification
 
-- [ ] Créer la page d’accueil.
-- [ ] Créer la page de connexion.
-- [ ] Créer la page d’inscription.
-- [ ] Créer le formulaire d’inscription avec validation.
-- [ ] Créer le formulaire de connexion avec validation.
-- [ ] Gérer les erreurs d’authentification.
-- [ ] Créer un service `authService.ts`.
-- [ ] Créer un garde de route pour protéger les pages nécessitant une connexion.
-- [ ] Rediriger l’utilisateur vers la page d’accueil après connexion.
-- [ ] Permettre la déconnexion.
-- [ ] Gérer la session utilisateur au démarrage de l’application.
+- [x] Créer la page d’accueil.
+- [x] Créer la page de connexion.
+- [x] Créer la page d’inscription.
+- [x] Créer le formulaire d’inscription avec validation.
+- [x] Créer le formulaire de connexion avec validation.
+- [x] Gérer les erreurs d’authentification.
+- [x] Créer un service `authService.ts`.
+- [x] Créer un garde de route pour protéger les pages nécessitant une connexion.
+- [x] Rediriger l’utilisateur vers la page d’accueil après connexion.
+- [x] Permettre la déconnexion.
+- [x] Gérer la session utilisateur au démarrage de l’application.
 
 **Livrable :** inscription, connexion, déconnexion et protection des routes.
 

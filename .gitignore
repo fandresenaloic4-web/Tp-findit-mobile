@@ -1,0 +1,4 @@
+# Clés et configuration Firebase (ne jamais versionner)
+.env
+.env.*
+!.env.example
