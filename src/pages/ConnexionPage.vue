@@ -103,16 +103,18 @@ const connecter = async () => {
     return;
   }
 
+  // Page demandée avant la connexion (route protégée), sinon l'accueil.
+  const redirect = route.query.redirect;
+  const cible = typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')
+    ? redirect
+    : '/accueil';
+
   try {
     await login(email.value.trim(), motDePasse.value);
+    clearError();
 
-    // La redirection vers la page d'accueil se fait après la connexion.
-    const redirect = route.query.redirect;
-    const cible = typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')
-      ? redirect
-      : '/accueil';
-
-    ionRouter.push(cible);
+    // replace() évite de pouvoir revenir sur le formulaire une fois connecté.
+    ionRouter.replace(cible);
   } catch {
     // Le message d'erreur est affiché via authStore.error.
   }

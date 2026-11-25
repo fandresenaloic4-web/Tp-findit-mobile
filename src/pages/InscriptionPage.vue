@@ -160,7 +160,8 @@ const inscrire = async () => {
 
   try {
     await register(email.value.trim(), motDePasse.value, profile);
-    ionRouter.push('/accueil');
+    clearError();
+    ionRouter.replace('/accueil');
   } catch {
     // Le message d'erreur est affiché via authStore.error.
   }

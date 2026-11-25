@@ -39,14 +39,20 @@ export const registerUser = async (
 
   const user = userCredential.user;
 
-  // 2. Création du profil dans Firestore
-  await setDoc(doc(db, 'utilisateurs', user.uid), {
-    nom: profile.nom,
-    email: user.email,
-    telephone: profile.telephone,
-    photoUrl: profile.photoUrl,
-    dateCreation: serverTimestamp()
-  });
+  // 2. Création du profil dans Firestore.
+  // Le compte Firebase est déjà créé : une erreur Firestore ne doit pas être
+  // signalée comme un échec d'inscription (sinon l'utilisateur reste sur le formulaire).
+  try {
+    await setDoc(doc(db, 'utilisateurs', user.uid), {
+      nom: profile.nom,
+      email: user.email,
+      telephone: profile.telephone,
+      photoUrl: profile.photoUrl,
+      dateCreation: serverTimestamp()
+    });
+  } catch (profileError) {
+    console.error('Erreur création du profil :', profileError);
+  }
 
   return user;
 };

@@ -34,32 +34,39 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
   };
 
+  // La lecture du profil ne doit jamais faire échouer une authentification réussie.
+  const loadProfile = async (userId: string) => {
+    try {
+      profile.value = await getUserProfile(userId);
+    } catch (profileError) {
+      console.error('Erreur récupération profil :', profileError);
+      profile.value = null;
+    }
+  };
+
   // Observer l'état de connexion
   let unsubscribeAuth: (() => void) | null = null;
 
   const initializeAuth = () => {
     if (unsubscribeAuth) return;
 
-    unsubscribeAuth = observeAuthState(async (currentUser) => {
+    unsubscribeAuth = observeAuthState((currentUser) => {
       user.value = currentUser;
 
-      try {
-        if (currentUser) {
-          profile.value = await getUserProfile(currentUser.uid);
-        } else {
-          profile.value = null;
-        }
-      } catch (authError) {
-        console.error('Erreur récupération profil :', authError);
-        profile.value = null;
-      } finally {
-        loading.value = false;
-        authInitialized.value = true;
+      // La décision de navigation dépend uniquement de l'état Firebase Auth,
+      // pas de la disponibilité de Firestore.
+      loading.value = false;
+      authInitialized.value = true;
 
-        if (resolveAuthReady) {
-          resolveAuthReady();
-          resolveAuthReady = null;
-        }
+      if (resolveAuthReady) {
+        resolveAuthReady();
+        resolveAuthReady = null;
+      }
+
+      if (currentUser) {
+        void loadProfile(currentUser.uid);
+      } else {
+        profile.value = null;
       }
     });
   };
@@ -107,7 +114,7 @@ export const useAuthStore = defineStore('auth', () => {
       const loggedUser = await loginUser(email, password);
 
       user.value = loggedUser;
-      profile.value = await getUserProfile(loggedUser.uid);
+      void loadProfile(loggedUser.uid);
 
       return loggedUser;
     } catch (authError) {
