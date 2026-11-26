@@ -1,71 +1,120 @@
-<!--<template>-->
-<!--  <ion-page>-->
-<!--    <ion-content class="ion-padding">-->
-<!--      <h1>Accueil</h1>-->
-<!--      <p>Page en cours de développement.</p>-->
-<!--    </ion-content>-->
-<!--  </ion-page>-->
-<!--</template>-->
-
-<!--<script setup lang="ts">-->
-<!--import { IonPage, IonContent } from '@ionic/vue';-->
-<!--</script>-->
-<script setup lang="ts">
-import { watch } from 'vue';
-import { useRouter } from 'vue-router';
-import {
-  IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonSpinner, IonTitle, IonToolbar,
-  onIonViewWillEnter,
-} from '@ionic/vue';
-import { add } from 'ionicons/icons';
-import { usePublications, useReferentiels } from '@/composables/usePublications';
-import PublicationCard from '@/components/PublicationCard.vue';
-import ChampRecherche from '@/components/ChampRecherche.vue';
-import FiltrePublication from '@/components/FiltrePublication.vue';
-
-const router = useRouter();
-const { categories, villes, chargerReferentiels, libelleCategorie, libelleVille } = useReferentiels();
-const { resultats, filtres, chargement, erreur, charger, majFiltres, reinitialiser } = usePublications();
-
-onIonViewWillEnter(async () => {
-  await chargerReferentiels();
-  await charger();
-});
-
-// Les filtres gérés par Firestore relancent la requête ; texte et dates sont filtrés localement.
-watch(() => [filtres.categorieId, filtres.villeId, filtres.statut], charger);
-</script>
-
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar><ion-title>FindIt</ion-title></ion-toolbar>
       <ion-toolbar>
-        <champ-recherche :model-value="filtres.texte" @update:model-value="majFiltres({ texte: $event })" />
+        <ion-title>FindIt</ion-title>
+        <ion-buttons slot="end">
+          <ion-button v-if="isAuthenticated" @click="deconnecter">
+            Déconnexion
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content>
-      <filtre-publication
-          :filtres="filtres" :categories="categories" :villes="villes"
-          @maj="majFiltres" @reinitialiser="reinitialiser"
-      />
+    <ion-content class="ion-padding">
+      <div class="accueil">
+        <h1>Retrouvez vos objets perdus</h1>
+        <p>
+          FindIt vous aide à publier un objet perdu ou retrouvé et à contacter
+          la personne concernée.
+        </p>
 
-      <div v-if="chargement" class="ion-text-center ion-padding"><ion-spinner /></div>
-      <p v-else-if="erreur" class="ion-padding">{{ erreur }}</p>
-      <p v-else-if="!resultats.length" class="ion-padding ion-text-center">Aucun résultat trouvé.</p>
+        <div v-if="loading" class="chargement">
+          <ion-spinner name="dots" />
+          <p>Restauration de la session…</p>
+        </div>
 
-      <publication-card
-          v-for="p in resultats" :key="p.id"
-          :publication="p"
-          :categorie="libelleCategorie(p.categorieId)"
-          :ville="libelleVille(p.villeId)"
-          @ouvrir="(id) => router.push(`/publication/${id}`)"
-      />
+        <div v-else-if="isAuthenticated" class="actions">
+          <p class="bienvenue">
+            Bienvenue {{ profile?.nom || user?.email }}
+          </p>
+          <ion-button expand="block" @click="naviguer('/publications')">
+            Voir les publications
+          </ion-button>
+          <ion-button expand="block" fill="outline" @click="naviguer('/publier')">
+            Publier un objet
+          </ion-button>
+          <ion-button expand="block" fill="clear" @click="naviguer('/profil')">
+            Mon profil
+          </ion-button>
+        </div>
 
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button @click="router.push('/publier')"><ion-icon :icon="add" /></ion-fab-button>
-      </ion-fab>
+        <div v-else class="actions">
+          <ion-button expand="block" @click="naviguer('/connexion')">
+            Se connecter
+          </ion-button>
+          <ion-button expand="block" fill="outline" @click="naviguer('/inscription')">
+            Créer un compte
+          </ion-button>
+        </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>
+
+<script setup lang="ts">
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonButton,
+  IonContent,
+  IonSpinner,
+  useIonRouter
+} from '@ionic/vue';
+
+import { useAuth } from '../composables/useAuth';
+
+const ionRouter = useIonRouter();
+const { user, profile, loading, isAuthenticated, logout } = useAuth();
+
+const naviguer = (chemin: string) => {
+  ionRouter.push(chemin);
+};
+
+const deconnecter = async () => {
+  try {
+    await logout();
+    ionRouter.push('/connexion');
+  } catch {
+    // Le message d'erreur est affiché par le store via authStore.error.
+  }
+};
+</script>
+
+<style scoped>
+.accueil {
+  max-width: 560px;
+  margin: 0 auto;
+  padding-top: 12vh;
+  text-align: center;
+}
+
+.accueil h1 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.accueil p {
+  color: var(--ion-color-medium);
+}
+
+.chargement,
+.actions {
+  margin-top: 2rem;
+}
+
+.chargement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bienvenue {
+  font-weight: bold;
+  color: var(--ion-text-color);
+}
+</style>

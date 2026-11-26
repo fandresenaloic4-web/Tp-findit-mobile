@@ -1,4 +1,4 @@
-/.idea
-/node_modules
-
-
+# Clés et configuration Firebase (ne jamais versionner)
+.env
+.env.*
+!.env.example
