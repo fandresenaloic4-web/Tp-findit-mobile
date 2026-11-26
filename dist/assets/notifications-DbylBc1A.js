@@ -1,0 +1,1 @@
+import{c as e,et as t}from"./index-Bccufp-B.js";async function n(n){await(await t.create({message:n,duration:e.erreur,color:`danger`})).present()}export{n as t};

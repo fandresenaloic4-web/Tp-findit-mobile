@@ -1,0 +1,1 @@
+import{Ct as e,F as t,U as n,_t as r,bt as i,dt as a,gt as o,ht as s,ut as c}from"./index-Bccufp-B.js";var l=o({__name:`ConversationsPage`,setup(o){return(o,l)=>(r(),a(e(n),null,{default:i(()=>[s(e(t),{class:`ion-padding`},{default:i(()=>[...l[0]||=[c(`h1`,null,`Conversations`,-1),c(`p`,null,`Page en cours de développement.`,-1)]]),_:1})]),_:1}))}});export{l as default};

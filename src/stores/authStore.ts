@@ -9,11 +9,10 @@ import {
   observeAuthState,
   getUserProfile,
   getMessageErreurAuth,
-  type UserProfile
-} from '../services/authService';
+  type UserProfile,
+} from '@/services/authService';
 
 export const useAuthStore = defineStore('auth', () => {
-
   // États
   const user = ref<User | null>(null);
   const profile = ref<UserProfile | null>(null);
@@ -78,20 +77,12 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   // Inscription
-  const register = async (
-    email: string,
-    password: string,
-    userProfile: UserProfile
-  ) => {
+  const register = async (email: string, password: string, userProfile: UserProfile) => {
     loading.value = true;
     clearError();
 
     try {
-      const newUser = await registerUser(
-        email,
-        password,
-        userProfile
-      );
+      const newUser = await registerUser(email, password, userProfile);
 
       user.value = newUser;
       profile.value = userProfile;
@@ -155,6 +146,6 @@ export const useAuthStore = defineStore('auth', () => {
     waitForAuth,
     register,
     login,
-    logout
+    logout,
   };
 });

@@ -1,0 +1,1 @@
+import{Ct as e,D as t,_t as n,bt as r,dt as i,gt as a,lt as o,mt as s,s as c,wt as l}from"./index-Bccufp-B.js";import{d as u}from"./usePublications-DcTcG7nP.js";var d=a({__name:`BadgeStatut`,props:{statut:{}},setup(a){let d=a,f=o(()=>c[d.statut]);return(o,c)=>(n(),i(e(t),{color:f.value},{default:r(()=>[s(l(e(u)(a.statut)),1)]),_:1},8,[`color`]))}});export{d as t};

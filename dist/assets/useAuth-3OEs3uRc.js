@@ -1,0 +1,1 @@
+import{T as e,t}from"./index-Bccufp-B.js";function n(){let n=t(),{user:r,profile:i,loading:a,authInitialized:o,error:s,isAuthenticated:c}=e(n);return{user:r,profile:i,loading:a,authInitialized:o,error:s,isAuthenticated:c,clearError:n.clearError,register:n.register,login:n.login,logout:n.logout}}export{n as t};

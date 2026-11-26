@@ -15,10 +15,11 @@
         <p>Renseignez vos informations pour utiliser FindIt.</p>
 
         <ion-item>
-          <ion-label position="stacked">Nom</ion-label>
           <ion-input
             v-model="nom"
             type="text"
+            label="Nom"
+            label-placement="stacked"
             autocomplete="name"
             placeholder="Votre nom"
           />
@@ -28,10 +29,11 @@
         </ion-text>
 
         <ion-item>
-          <ion-label position="stacked">Adresse e-mail</ion-label>
           <ion-input
             v-model="email"
             type="email"
+            label="Adresse e-mail"
+            label-placement="stacked"
             autocomplete="email"
             placeholder="vous@exemple.com"
           />
@@ -41,10 +43,11 @@
         </ion-text>
 
         <ion-item>
-          <ion-label position="stacked">Numéro de téléphone</ion-label>
           <ion-input
             v-model="telephone"
             type="tel"
+            label="Numéro de téléphone"
+            label-placement="stacked"
             autocomplete="tel"
             placeholder="0612345678"
           />
@@ -54,10 +57,11 @@
         </ion-text>
 
         <ion-item>
-          <ion-label position="stacked">Mot de passe</ion-label>
           <ion-input
             v-model="motDePasse"
             type="password"
+            label="Mot de passe"
+            label-placement="stacked"
             autocomplete="new-password"
             placeholder="6 caractères minimum"
           />
@@ -67,10 +71,11 @@
         </ion-text>
 
         <ion-item>
-          <ion-label position="stacked">Confirmer le mot de passe</ion-label>
           <ion-input
             v-model="confirmationMotDePasse"
             type="password"
+            label="Confirmer le mot de passe"
+            label-placement="stacked"
             autocomplete="new-password"
             placeholder="Répétez le mot de passe"
           />
@@ -107,19 +112,15 @@ import {
   IonButton,
   IonContent,
   IonItem,
-  IonLabel,
   IonInput,
   IonText,
   IonSpinner,
-  useIonRouter
+  useIonRouter,
 } from '@ionic/vue';
 
-import { useAuth } from '../composables/useAuth';
-import {
-  validerFormulaireInscription,
-  type ErreursFormulaire
-} from '../utils/validation';
-import type { UserProfile } from '../services/authService';
+import { useAuth } from '@/composables/useAuth';
+import type { UserProfile } from '@/services/authService';
+import { validerFormulaireInscription, type ErreursFormulaire } from '@/utils/validation';
 
 const ionRouter = useIonRouter();
 const { register, loading, error, clearError } = useAuth();
@@ -143,7 +144,7 @@ const inscrire = async () => {
     email.value,
     telephone.value,
     motDePasse.value,
-    confirmationMotDePasse.value
+    confirmationMotDePasse.value,
   );
 
   if (Object.keys(erreurs.value).length > 0) {
@@ -155,7 +156,7 @@ const inscrire = async () => {
     nom: nom.value.trim(),
     email: email.value.trim(),
     telephone: telephone.value.trim(),
-    photoUrl: ''
+    photoUrl: '',
   };
 
   try {

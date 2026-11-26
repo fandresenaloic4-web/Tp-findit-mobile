@@ -1,22 +1,17 @@
-
+import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
-  type User
+  type User,
 } from 'firebase/auth';
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/services/firebase';
+import { COLLECTIONS } from '@/utils/constantes';
+import { lireChaine } from '@/utils/firestore';
 
-import {
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp
-} from 'firebase/firestore';
-
-import { auth, db } from './firebase';
-
-// Type des informations complémentaires de l'utilisateur
+/** Informations complémentaires stockées dans `utilisateurs/{uid}`. */
 export interface UserProfile {
   nom: string;
   email: string;
@@ -24,83 +19,59 @@ export interface UserProfile {
   photoUrl: string;
 }
 
-// Inscription d'un utilisateur
-export const registerUser = async (
+export async function registerUser(
   email: string,
   password: string,
-  profile: UserProfile
-) => {
-  // 1. Création du compte Firebase Authentication
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+  profile: UserProfile,
+): Promise<User> {
+  const { user } = await createUserWithEmailAndPassword(auth, email, password);
 
-  const user = userCredential.user;
-
-  // 2. Création du profil dans Firestore.
-  // Le compte Firebase est déjà créé : une erreur Firestore ne doit pas être
+  // Le compte Firebase est créé : une erreur Firestore ne doit pas être
   // signalée comme un échec d'inscription (sinon l'utilisateur reste sur le formulaire).
   try {
-    await setDoc(doc(db, 'utilisateurs', user.uid), {
+    await setDoc(doc(db, COLLECTIONS.utilisateurs, user.uid), {
       nom: profile.nom,
       email: user.email,
       telephone: profile.telephone,
       photoUrl: profile.photoUrl,
-      dateCreation: serverTimestamp()
+      dateCreation: serverTimestamp(),
     });
   } catch (profileError) {
-    console.error('Erreur création du profil :', profileError);
+    console.error('Erreur lors de la création du profil :', profileError);
   }
 
   return user;
-};
+}
 
-// Connexion d'un utilisateur
-export const loginUser = async (
-  email: string,
-  password: string
-) => {
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+export async function loginUser(email: string, password: string): Promise<User> {
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  return user;
+}
 
-  return userCredential.user;
-};
-
-// Récupération du profil utilisateur
-export const getUserProfile = async (
-  userId: string
-): Promise<UserProfile | null> => {
-  const userRef = doc(db, 'utilisateurs', userId);
-  const userSnapshot = await getDoc(userRef);
-
-  if (userSnapshot.exists()) {
-    return userSnapshot.data() as UserProfile;
-  }
-
-  return null;
-};
-
-
-// Déconnexion
-export const logoutUser = async () => {
+export async function logoutUser(): Promise<void> {
   await signOut(auth);
-};
+}
 
-// Observation de l'état de connexion
-export const observeAuthState = (
-  callback: (user: User | null) => void
-) => {
+export function observeAuthState(callback: (user: User | null) => void): () => void {
   return onAuthStateChanged(auth, callback);
-};
+}
 
-// Traduction des erreurs Firebase Authentication en messages affichables
-export const getMessageErreurAuth = (error: unknown): string => {
-  const code = (error as { code?: string } | null)?.code;
+export async function getUserProfile(userId: string): Promise<UserProfile | null> {
+  const snapshot = await getDoc(doc(db, COLLECTIONS.utilisateurs, userId));
+  if (!snapshot.exists()) return null;
+
+  const donnees = snapshot.data();
+  return {
+    nom: lireChaine(donnees, 'nom'),
+    email: lireChaine(donnees, 'email'),
+    telephone: lireChaine(donnees, 'telephone'),
+    photoUrl: lireChaine(donnees, 'photoUrl'),
+  };
+}
+
+/** Traduit les erreurs Firebase Authentication en messages affichables. */
+export function getMessageErreurAuth(error: unknown): string {
+  const code = error instanceof FirebaseError ? error.code : '';
 
   switch (code) {
     case 'auth/invalid-email':
@@ -122,4 +93,4 @@ export const getMessageErreurAuth = (error: unknown): string => {
     default:
       return 'Une erreur est survenue. Veuillez réessayer.';
   }
-};
+}

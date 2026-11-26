@@ -1,36 +1,22 @@
-
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '@/stores/authStore';
 
+/** Expose l'état d'authentification sous forme de refs, comme recommandé par Pinia. */
 export function useAuth() {
   const authStore = useAuthStore();
-
-  // Récupération des états réactifs
-  const {
-    user,
-    profile,
-    loading,
-    authInitialized,
-    error,
-    isAuthenticated
-  } = storeToRefs(authStore);
-
-  // Initialisation de l'observation Firebase
-  authStore.initializeAuth();
+  const { user, profile, loading, authInitialized, error, isAuthenticated } =
+    storeToRefs(authStore);
 
   return {
-    // États
     user,
     profile,
     loading,
     authInitialized,
     error,
     isAuthenticated,
-
-    // Actions
     clearError: authStore.clearError,
     register: authStore.register,
     login: authStore.login,
-    logout: authStore.logout
+    logout: authStore.logout,
   };
 }

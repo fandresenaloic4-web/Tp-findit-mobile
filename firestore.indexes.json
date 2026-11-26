@@ -1,0 +1,74 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "auteurId", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "categorieId", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "villeId", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "statut", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "categorieId", "order": "ASCENDING" },
+        { "fieldPath": "villeId", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "categorieId", "order": "ASCENDING" },
+        { "fieldPath": "statut", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "villeId", "order": "ASCENDING" },
+        { "fieldPath": "statut", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "publications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "categorieId", "order": "ASCENDING" },
+        { "fieldPath": "villeId", "order": "ASCENDING" },
+        { "fieldPath": "statut", "order": "ASCENDING" },
+        { "fieldPath": "datePublication", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

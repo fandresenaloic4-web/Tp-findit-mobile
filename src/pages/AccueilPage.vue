@@ -4,9 +4,7 @@
       <ion-toolbar>
         <ion-title>FindIt</ion-title>
         <ion-buttons slot="end">
-          <ion-button v-if="isAuthenticated" @click="deconnecter">
-            Déconnexion
-          </ion-button>
+          <ion-button v-if="isAuthenticated" @click="deconnecter"> Déconnexion </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -15,8 +13,8 @@
       <div class="accueil">
         <h1>Retrouvez vos objets perdus</h1>
         <p>
-          FindIt vous aide à publier un objet perdu ou retrouvé et à contacter
-          la personne concernée.
+          FindIt vous aide à publier un objet perdu ou retrouvé et à contacter la personne
+          concernée.
         </p>
 
         <div v-if="loading" class="chargement">
@@ -25,9 +23,7 @@
         </div>
 
         <div v-else-if="isAuthenticated" class="actions">
-          <p class="bienvenue">
-            Bienvenue {{ profile?.nom || user?.email }}
-          </p>
+          <p class="bienvenue">Bienvenue {{ profile?.nom || user?.email }}</p>
           <ion-button expand="block" @click="naviguer('/publications')">
             Voir les publications
           </ion-button>
@@ -40,9 +36,7 @@
         </div>
 
         <div v-else class="actions">
-          <ion-button expand="block" @click="naviguer('/connexion')">
-            Se connecter
-          </ion-button>
+          <ion-button expand="block" @click="naviguer('/connexion')"> Se connecter </ion-button>
           <ion-button expand="block" fill="outline" @click="naviguer('/inscription')">
             Créer un compte
           </ion-button>
@@ -62,10 +56,11 @@ import {
   IonButton,
   IonContent,
   IonSpinner,
-  useIonRouter
+  useIonRouter,
 } from '@ionic/vue';
 
-import { useAuth } from '../composables/useAuth';
+import { useAuth } from '@/composables/useAuth';
+import { afficherToastErreur } from '@/utils/notifications';
 
 const ionRouter = useIonRouter();
 const { user, profile, loading, isAuthenticated, logout } = useAuth();
@@ -79,7 +74,7 @@ const deconnecter = async () => {
     await logout();
     ionRouter.push('/connexion');
   } catch {
-    // Le message d'erreur est affiché par le store via authStore.error.
+    await afficherToastErreur('La déconnexion a échoué.');
   }
 };
 </script>

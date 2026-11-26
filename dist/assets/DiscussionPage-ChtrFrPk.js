@@ -1,1 +1,0 @@
-import{A as e,C as t,D as n,M as r,O as i,S as a,a as o,k as s,u as c}from"./index-HIEqcAYA.js";var l=i({__name:`DiscussionPage`,setup(i){return(i,l)=>(s(),t(r(c),null,{default:e(()=>[n(r(o),{class:`ion-padding`},{default:e(()=>[...l[0]||=[a(`h1`,null,`Discussion`,-1),a(`p`,null,`Page en cours de développement.`,-1)]]),_:1})]),_:1}))}});export{l as default};

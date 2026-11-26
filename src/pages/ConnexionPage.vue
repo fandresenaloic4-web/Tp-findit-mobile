@@ -15,10 +15,11 @@
         <p>Connectez-vous pour retrouver vos objets.</p>
 
         <ion-item>
-          <ion-label position="stacked">Adresse e-mail</ion-label>
           <ion-input
             v-model="email"
             type="email"
+            label="Adresse e-mail"
+            label-placement="stacked"
             autocomplete="email"
             placeholder="vous@exemple.com"
           />
@@ -28,10 +29,11 @@
         </ion-text>
 
         <ion-item>
-          <ion-label position="stacked">Mot de passe</ion-label>
           <ion-input
             v-model="motDePasse"
             type="password"
+            label="Mot de passe"
+            label-placement="stacked"
             autocomplete="current-password"
             placeholder="Votre mot de passe"
           />
@@ -69,18 +71,14 @@ import {
   IonButton,
   IonContent,
   IonItem,
-  IonLabel,
   IonInput,
   IonText,
   IonSpinner,
-  useIonRouter
+  useIonRouter,
 } from '@ionic/vue';
 
-import { useAuth } from '../composables/useAuth';
-import {
-  validerFormulaireConnexion,
-  type ErreursFormulaire
-} from '../utils/validation';
+import { useAuth } from '@/composables/useAuth';
+import { validerFormulaireConnexion, type ErreursFormulaire } from '@/utils/validation';
 
 const ionRouter = useIonRouter();
 const route = useRoute();
@@ -105,9 +103,10 @@ const connecter = async () => {
 
   // Page demandée avant la connexion (route protégée), sinon l'accueil.
   const redirect = route.query.redirect;
-  const cible = typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')
-    ? redirect
-    : '/accueil';
+  const cible =
+    typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')
+      ? redirect
+      : '/accueil';
 
   try {
     await login(email.value.trim(), motDePasse.value);

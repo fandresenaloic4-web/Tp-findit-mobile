@@ -5,10 +5,16 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
     "skipLibCheck": true,

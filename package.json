@@ -8,7 +8,12 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,vue}\" \"scripts/**/*.mjs\" \"*.{json,ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,vue}\" \"scripts/**/*.mjs\" \"*.{json,ts,js}\"",
+    "seed": "node scripts/seed-donnees-test.mjs",
+    "deploy:regles": "node scripts/deploy-regles.mjs",
+    "deploy:firebase": "firebase deploy --only firestore:rules,firestore:indexes,storage"
   },
   "repository": {
     "type": "git",
@@ -36,7 +41,11 @@
     "@capacitor/cli": "^8.6.2",
     "@types/node": "^26.6.6",
     "@vitejs/plugin-vue": "^6.0.11",
+    "firebase-admin": "^14.5.1",
+    "firebase-tools": "^15.37.0",
+    "prettier": "^3.10.1",
     "typescript": "^6.0.3",
+    "undici": "^6.29.1",
     "vite": "^8.3.8",
     "vue-tsc": "^3.3.14"
   },

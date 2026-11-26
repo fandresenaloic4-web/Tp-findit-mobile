@@ -1,0 +1,82 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function estConnecte() {
+      return request.auth != null;
+    }
+
+    function statutValide(statut) {
+      return statut in ['perdu', 'retrouve', 'recupere'];
+    }
+
+    function estAuteurPublication(publicationId) {
+      return estConnecte()
+        && get(/databases/$(database)/documents/publications/$(publicationId)).data.auteurId == request.auth.uid;
+    }
+
+    function estParticipantConversation(conversationId) {
+      return estConnecte()
+        && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
+    }
+
+    // Référentiels : lecture publique, écriture réservée à l'administration Firebase.
+    match /categories/{categorieId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /villes/{villeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /publications/{publicationId} {
+      allow read: if true;
+
+      allow create: if estConnecte()
+        && request.resource.data.auteurId == request.auth.uid
+        && statutValide(request.resource.data.statut)
+        && request.resource.data.keys().hasAll([
+          'auteurId', 'categorieId', 'villeId', 'statut', 'objet',
+          'description', 'localisation', 'datePublication', 'dateTrouve', 'photoUrls'
+        ]);
+
+      // Seul l'auteur peut modifier sa publication, et il ne peut pas en changer l'auteur.
+      allow update: if estAuteurPublication(publicationId)
+        && request.resource.data.auteurId == resource.data.auteurId
+        && statutValide(request.resource.data.statut);
+
+      allow delete: if estAuteurPublication(publicationId);
+
+      // Historique immuable : créé par l'auteur uniquement, jamais modifié.
+      match /mouvementsStatut/{mouvementId} {
+        allow read: if true;
+        allow create: if estAuteurPublication(publicationId)
+          && statutValide(request.resource.data.statut);
+        allow update, delete: if false;
+      }
+    }
+
+    // Profils : lisibles par les utilisateurs connectés, modifiables par leur propriétaire.
+    match /utilisateurs/{userId} {
+      allow read: if estConnecte();
+      allow create, update: if estConnecte() && userId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    match /conversations/{conversationId} {
+      allow read, update, delete: if estConnecte() && request.auth.uid in resource.data.participants;
+      allow create: if estConnecte() && request.auth.uid in request.resource.data.participants;
+
+      match /messages/{messageId} {
+        allow read: if estParticipantConversation(conversationId);
+        allow create: if estParticipantConversation(conversationId)
+          && request.resource.data.expediteurId == request.auth.uid;
+        allow update: if estParticipantConversation(conversationId)
+          && request.resource.data.expediteurId == resource.data.expediteurId;
+        allow delete: if false;
+      }
+    }
+  }
+}

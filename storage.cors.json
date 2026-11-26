@@ -1,0 +1,21 @@
+[
+  {
+    "origin": [
+      "http://localhost:5173",
+      "http://localhost:8100",
+      "capacitor://localhost",
+      "ionic://localhost",
+      "https://findit-54810.web.app",
+      "https://findit-54810.firebaseapp.com"
+    ],
+    "method": ["GET", "POST", "PUT", "DELETE", "HEAD"],
+    "responseHeader": [
+      "Content-Type",
+      "Authorization",
+      "X-Firebase-Storage-XSRF",
+      "x-goog-api-client",
+      "x-firebase-storage-api-version"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

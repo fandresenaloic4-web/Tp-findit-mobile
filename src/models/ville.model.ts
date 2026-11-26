@@ -1,4 +1,4 @@
 export interface Ville {
-    id: string;
-    libelle: string;
+  id: string;
+  libelle: string;
 }

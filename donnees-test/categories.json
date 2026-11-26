@@ -1,0 +1,18 @@
+[
+  { "id": "portefeuille", "libelle": "Portefeuille" },
+  { "id": "telephone", "libelle": "Téléphone" },
+  { "id": "cles", "libelle": "Clés" },
+  { "id": "sac", "libelle": "Sac" },
+  { "id": "sac-a-dos", "libelle": "Sac à dos" },
+  { "id": "velo", "libelle": "Vélo" },
+  { "id": "montre", "libelle": "Montre" },
+  { "id": "lunettes", "libelle": "Lunettes" },
+  { "id": "livre", "libelle": "Livre" },
+  { "id": "vetements", "libelle": "Vêtements" },
+  { "id": "chaussures", "libelle": "Chaussures" },
+  { "id": "documents-et-papiers", "libelle": "Documents et papiers" },
+  { "id": "appareil-photo", "libelle": "Appareil photo" },
+  { "id": "ecouteurs", "libelle": "Écouteurs" },
+  { "id": "batterie-externe", "libelle": "Batterie externe" },
+  { "id": "parapluie", "libelle": "Parapluie" }
+]

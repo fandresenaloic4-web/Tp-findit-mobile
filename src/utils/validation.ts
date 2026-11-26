@@ -56,7 +56,7 @@ export const validerMotDePasse = (motDePasse: string): string | null => {
 
 export const validerFormulaireConnexion = (
   email: string,
-  motDePasse: string
+  motDePasse: string,
 ): ErreursFormulaire => {
   const erreurs: ErreursFormulaire = {};
 
@@ -78,7 +78,7 @@ export const validerFormulaireInscription = (
   email: string,
   telephone: string,
   motDePasse: string,
-  confirmationMotDePasse: string
+  confirmationMotDePasse: string,
 ): ErreursFormulaire => {
   const erreurs: ErreursFormulaire = {};
 

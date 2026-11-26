@@ -1,6 +1,4 @@
 export interface Categorie {
-    id: string;
-    libelle: string;
+  id: string;
+  libelle: string;
 }
-
-

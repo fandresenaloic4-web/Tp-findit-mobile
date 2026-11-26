@@ -1,0 +1,18 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /publications/{publicationId}/photos/{photoId} {
+      allow read: if true;
+
+      // Seul l'auteur de la publication peut ajouter ou remplacer ses photos.
+      allow create, update: if request.auth != null
+        && firestore.get(/databases/(default)/documents/publications/$(publicationId)).data.auteurId == request.auth.uid
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow delete: if request.auth != null
+        && firestore.get(/databases/(default)/documents/publications/$(publicationId)).data.auteurId == request.auth.uid;
+    }
+  }
+}
