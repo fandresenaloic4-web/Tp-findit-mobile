@@ -1,0 +1,1 @@
+import{d as e,f as t,g as n,h as r,m as i,n as a,p as o,t as s,u as c}from"./index-DslCl8Px.js";var l=o({__name:`InscriptionPage`,setup(o){return(o,l)=>(i(),e(n(a),null,{default:r(()=>[t(n(s),{class:`ion-padding`},{default:r(()=>[...l[0]||=[c(`h1`,null,`Inscription`,-1),c(`p`,null,`Page en cours de développement.`,-1)]]),_:1})]),_:1}))}});export{l as default};
